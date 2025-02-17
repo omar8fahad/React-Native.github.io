@@ -1,48 +1,41 @@
 workflows:
   android-workflow:
     name: Azkar App Android Release
-    max_build_duration: 60
+    max_build_duration: 120
+    instance_type: mac_mini_m2
     environment:
       android_signing:
         - keystore_reference
       vars:
         PACKAGE_NAME: "com.azkarapp"  # Change this to your app's package name
-      node: latest
+      groups:
+        - google_play
     scripts:
-      - name: Install npm dependencies
+      - name: Set Android SDK location
         script: |
-          npm install
-      - name: Set up local properties
-        script: |
-          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/android/local.properties"
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Build Android release
         script: |
-          cd android
-          ./gradlew bundleRelease
+          LATEST_GOOGLE_PLAY_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "$PACKAGE_NAME")
+          if [ -z $LATEST_GOOGLE_PLAY_BUILD_NUMBER ]; then
+              UPDATED_BUILD_NUMBER=$BUILD_NUMBER
+          else
+              UPDATED_BUILD_NUMBER=$(($LATEST_GOOGLE_PLAY_BUILD_NUMBER + 1))
+          fi
+          ./gradlew bundleRelease -PversionCode=$UPDATED_BUILD_NUMBER -PversionName=1.0.$UPDATED_BUILD_NUMBER
     artifacts:
       - android/app/build/outputs/**/*.aab
-      - android/app/build/outputs/**/*.apk
     publishing:
       email:
         recipients:
           - omares111@gmail.com  # Change to your email
+        notify:
+          success: true
+          failure: false
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: internal  # Can be internal, alpha, beta, or production
-
-  android-build:
-    name: Android Build
-    environment:
-      flutter: stable
-    scripts:
-      - name: Install dependencies
-        script: |
-          flutter pub get
-      - name: Build Android release
-        script: |
-          flutter build apk --release
-    artifacts:
-      - build/app/outputs/apk/release/app-release.apk
+        track: internal
+        submit_as_draft: true
 
   build:
     name: Build and Test

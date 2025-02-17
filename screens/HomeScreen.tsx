@@ -325,6 +325,7 @@ const HomeScreen: React.FC = () => {
     }
   ];
 
+
   const handleTimeSelect = (time: 'morning' | 'evening') => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     Animated.sequence([
@@ -468,11 +469,12 @@ const HomeScreen: React.FC = () => {
           {!selectedTime ? (
             <View style={styles.timeSelection}>
               <TouchableOpacity style={[styles.timeCard, { backgroundColor: colors.sectionLight }]} onPress={() => handleTimeSelect('morning')}>
-                <LinearGradient colors={isDark ? ['#1a237e44', '#0d47a144'] : ['#2196F322', '#1976D222']} style={styles.gradientCard}>
-                  <View style={styles.iconContainer}>
-                    <MaterialCommunityIcons name="weather-sunny" size={60} color={colors.text} />
-                    <MaterialCommunityIcons name="weather-cloudy" size={30} color={colors.text} style={styles.sunIcon} />
-                  </View>
+                <LinearGradient colors={isDark ? ['#1a237e44', '#0d47a144'] : ['#2196F322', '#1976D222']} style={styles.gradientCard}>                  <MaterialCommunityIcons 
+                    name="white-balance-sunny" 
+                    size={60} 
+                    color={colors.text} 
+                    style={styles.morningIcon} 
+                  />
                   <Text style={[styles.timeText, { color: colors.text }]}>أذكار الصباح</Text>
                   {renderProgressCircle('morning')}
                 </LinearGradient>
@@ -536,9 +538,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
   },
-  gradientCard: { padding: 20, alignItems: 'center', justifyContent: 'center' },
-  iconContainer: { position: 'relative', width: 60, height: 60, alignItems: 'center', justifyContent: 'center' },
-  sunIcon: { position: 'absolute', top: -5, right: -5 },
+  gradientCard: { padding: 20, alignItems: 'center', justifyContent: 'center' },  morningIcon: { marginVertical: 10 },
   timeText: { fontSize: 20, fontWeight: '600', marginTop: 10, writingDirection: 'rtl' },
   progressCircle: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#00000011', alignItems: 'center', justifyContent: 'center', marginTop: 10 },
   progressText: { fontSize: 12, fontWeight: '600' },

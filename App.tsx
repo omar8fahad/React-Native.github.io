@@ -6,9 +6,9 @@
   import { SafeAreaProvider } from "react-native-safe-area-context"
   import { Toaster } from 'sonner-native';
   import HomeScreen from "screens/HomeScreen.tsx"
-
+  
   const Stack = createNativeStackNavigator();
-
+  
   function RootStack() {
     return (
       <Stack.Navigator screenOptions={{
@@ -18,7 +18,7 @@
       </Stack.Navigator>
     );
   }
-
+  
   export default function App() {
     return (
       <SafeAreaProvider style={styles.container}>
@@ -29,9 +29,10 @@
       </SafeAreaProvider>
     );
   }
-
+  
   const styles = StyleSheet.create({
     container: {
       flex: 1
     }
   });
+  

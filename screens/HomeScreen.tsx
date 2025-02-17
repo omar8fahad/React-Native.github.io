@@ -4,21 +4,14 @@ import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-ico
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
+import { ThemeA0project } from '../src/Theme.A0project';
 
 const { width } = Dimensions.get('window');
 
 const HomeScreen: React.FC = () => {
   const [isDark, setIsDark] = useState(false);
   const [selectedTime, setSelectedTime] = useState<'morning' | 'evening' | null>(null);
-  const [progress, setProgress] = useState<{ [key: string]: number }>({});
-
-  // For simplicity, we use fixed color values rather than dynamic theme additions.
-  const colors = {
-    background: isDark ? '#000' : '#fff',
-    text: isDark ? '#fff' : '#000',
-    primary: ['#2196F3', '#1976D2'],
-    sectionLight: isDark ? '#444' : '#f9f9f9',
-  };
+  const [progress, setProgress] = useState<{ [key: string]: number }>({});  const colors = isDark ? ThemeA0project.dark : ThemeA0project.light;
 
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const fadeAnim = useRef(new Animated.Value(1)).current;

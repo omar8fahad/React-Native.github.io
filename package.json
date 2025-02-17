@@ -26,7 +26,8 @@
     "@supabase/supabase-js": "latest",
     "sonner-native": "latest",
     "react-native-reanimated": "latest",
-    "react-native-screens": "latest"
+    "react-native-screens": "latest",
+    "expo-haptics": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
